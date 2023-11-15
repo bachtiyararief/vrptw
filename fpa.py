@@ -1,6 +1,7 @@
 import numpy
 import pandas
 import scipy
+pandas.set_option('display.max_columns', None)
 
 class FlowerPollination():
 
@@ -143,8 +144,11 @@ class FlowerPollination():
                     posisi = posisi_bunga,
                     posisi_terbaik = posisi_bunga_terbaik
                 )
+
             else:
-                hasil_penyerbukan = self.penyerbukan_lokal(posisi_bunga)
+                hasil_penyerbukan = self.penyerbukan_lokal(
+                    posisi_bunga
+                )
 
             if(i == 0):
                 posisi_bunga_baru = pd.DataFrame([hasil_penyerbukan])
