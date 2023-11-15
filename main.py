@@ -11,7 +11,7 @@ FPA = fpa.FlowerPollination(
     dimensi = 25
 )
 
-vrptw = VehicleRoutingProblemwithTimeWindows()
+vrptw = vrptw.VehicleRoutingProblemwithTimeWindows()
 
 posisi = FPA.bangkitkan_posisi_bunga()
 print(posisi)
