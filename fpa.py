@@ -52,21 +52,20 @@ class FlowerPollination():
         real_acak = numpy.random.rand(self.banyak_bunga)
         switch_prob = [self.switch_probability] * self.banyak_bunga
         
-        kriteria_penyerbukan = pandas.DataFrame({
+        seleksi = pandas.DataFrame({
                 'Random' : real_acak,
                 'Switch Probability' : switch_prob
             }, 
             index = self.__nama_baris
         )
 
-        # Pembagian kriteria penyerbukan
-        kriteria_penyerbukan['Penyerbukan'] = numpy.where(
-            kriteria_penyerbukan['Random'] < self.switch_probability,
+        seleksi['Penyerbukan'] = numpy.where(
+            seleksi['Random'] < self.switch_probability,
             'GLOBAL',
             'LOKAL'
         )
 
-        return(kriteria_penyerbukan)
+        return(seleksi)
     
     def penyerbukan_lokal(
         self, 
@@ -124,3 +123,45 @@ class FlowerPollination():
             hasil.append(posisi_baru)
 
         return(hasil)
+    
+    def penyerbukan(
+        self, 
+        posisi : pandas.DataFrame
+    ) -> pandas.DataFrame:
+
+        hasil_seleksi = self.seleksi_penyerbukan()
+
+        index_terbaik_bunga = f'Bunga {index_bunga_terbaik + 1}'
+        posisi_bunga_terbaik = posisi.loc[index_terbaik_bunga]
+        
+        for i in range(self.banyak_bunga):
+            index_bunga = f'Bunga {i+1}'
+            posisi_bunga = posisi.loc[index_bunga]
+            
+            if(hasil_seleksi.loc[index_bunga]['Penyerbukan'] == 'GLOBAL'):
+                hasil_penyerbukan = self.penyerbukan_global(
+                    posisi = posisi_bunga,
+                    posisi_terbaik = posisi_bunga_terbaik
+                )
+            else:
+                hasil_penyerbukan = self.penyerbukan_lokal(posisi_bunga)
+
+            if(i == 0):
+                posisi_bunga_baru = pd.DataFrame([hasil_penyerbukan])
+            else:
+                posisi_baru = pd.Series(
+                    hasil_penyerbukan, 
+                    index = [j for j in range(banyak_pelanggan)]
+                )
+
+                posisi_bunga_baru = posisi_bunga_baru.append(
+                    posisi_baru, 
+                    ignore_index = True
+                )
+
+        posisi_bunga_baru.index = self.__nama_baris
+        posisi_bunga_baru.columns = self.__nama_kolom
+
+        return(posisi_bunga_baru)
+
+        
