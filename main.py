@@ -1,6 +1,6 @@
 import fpa
+import vrptw
 import warnings
-
 warnings.filterwarnings('ignore')
 
 FPA = fpa.FlowerPollination(
@@ -11,5 +11,10 @@ FPA = fpa.FlowerPollination(
     dimensi = 25
 )
 
+vrptw = VehicleRoutingProblemwithTimeWindows()
+
 posisi = FPA.bangkitkan_posisi_bunga()
 print(posisi)
+
+permutasi = vrptw.urutkan_posisi(posisi)
+print(permutasi)
