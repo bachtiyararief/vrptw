@@ -18,7 +18,7 @@ class FlowerPollination():
         self.__nama_kolom = [f'{kolom + 1}' for kolom in range(self.dimensi)]
         self.__nama_baris = [f'Bunga {baris + 1}' for baris in range(self.banyak_bunga)]
 
-        self.sigma = ((scipy.special.gamma(1 + self.lamda) * numpy.sin(numpy.pi * (self.lamda / 2)))
+        self.sigma = ((scipy.special.gamma(1 + self.lamda) * numpy.sin(numpy.pi * (self.lamda / 2))) \
                       /(scipy.special.gamma((1 + self.lamda) / 2) * self.lamda * (2 ** ((self.lamda - 1) / 2))))**(1 / self.lamda)
 
     
@@ -118,7 +118,7 @@ class FlowerPollination():
 
         for i in range(banyak_dimensi):
             s = (u[i] * self.sigma)/((numpy.abs(v[i]))**(1 / self.lamda))
-            L = ((self.lamda * scipy.special.gamma(self.lamda) * numpy.sin(numpy.pi/2 * self.lamda))/numpy.pi) *
+            L = ((self.lamda * scipy.special.gamma(self.lamda) * numpy.sin(numpy.pi/2 * self.lamda))/numpy.pi) * \
                 (1/(numpy.abs(s) ** (1 + self.lamda)))
             posisi_baru = posisi[i] + self.stepsize * L * (posisi_terbaik[i] - posisi[i])
             hasil.append(posisi_baru)
